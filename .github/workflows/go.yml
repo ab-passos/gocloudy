@@ -24,7 +24,7 @@ jobs:
 
     - name: Get dependencies
       run: |
-        go get -v -t -d ./...
+        GO111MODULE=on go get -v -t -d ./...
 
     - name: Generate code
       run: |
