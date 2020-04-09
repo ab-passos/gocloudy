@@ -14,7 +14,7 @@ jobs:
     container: grpc/go
     steps:
       - name: gets dependencies
-        run: go get github.com/micro/protoc-gen-micro
+        run: go get github.com/micro/protoc-gen-micro/v2
         
         
   build:
