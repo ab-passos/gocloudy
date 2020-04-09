@@ -28,11 +28,11 @@ jobs:
 
     - name: Export go modules
       run: |
-        export GO111MODULE=on
+        go get -u github.com/golang/protobuf/protoc-gen-go
 
-    - name: Get dependencies
-      run: |
-        go test
+#    - name: Get dependencies
+#      run: |
+#        go test
 
 #    - name: Get dependencies
 #      run: |
