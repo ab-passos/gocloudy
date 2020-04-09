@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package main;
+
+service Devbench {
+    rpc Create(Name) returns (google.protobuf.Empty) {}
+    rpc Delete(Name) returns (google.protobuf.Empty) {}
+}
+
+message Name {
+	string name = 1;
+}
+

@@ -1,0 +1,6 @@
+credentials/*
+main
+.DS_Store
+Machine/main
+Mono/main
+proto/*.go

@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<scenario>
+   <configuration>
+      <configuration_id>Config1</configuration_id>
+      <environment>VM</environment>
+      <machine_type>Debian</machine_type>
+   </configuration>
+   <configuration>
+      <configuration_id>Config2</configuration_id>
+      <environment>VM</environment>
+      <machine_type>Debian</machine_type>
+   </configuration>
+   <configuration>
+      <configuration_id>Config3</configuration_id>
+      <environment>VM</environment>
+      <machine_type>Debian</machine_type>
+   </configuration>
+   <configuration>
+      <configuration_id>Config4</configuration_id>
+      <environment>VM</environment>
+      <machine_type>Debian</machine_type>
+   </configuration>
+</scenario>
