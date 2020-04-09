@@ -49,7 +49,7 @@ jobs:
 
     - name: protoc-gen-micro
       run: |
-        go get github.com/micro/protoc-gen-micro/v2
+        GO111MODULE=on  go get github.com/micro/micro/v2@v2.4.0
 
     - name: Generate code
       run: |
