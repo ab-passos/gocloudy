@@ -51,6 +51,10 @@ jobs:
       run: |
         GO111MODULE=on  go get github.com/micro/micro/v2@v2.4.0
 
+    - name: Set path
+      run: |
+        export PATH=$PATH:$GOPATH/bin
+
     - name: Generate code
       run: |
         protoc --proto_path=$GOPATH:. --micro_out=. --go_out=. proto/Devbench.proto
