@@ -21,10 +21,14 @@ jobs:
 
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
+    
+    - name: Go to directory
+      run: |
+        cd proto
 
     - name: Get dependencies
       run: |
-        GO111MODULE=on go test
+        go get -v -t -d ./...
 
     - name: Generate code
       run: |
