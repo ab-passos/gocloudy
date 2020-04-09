@@ -23,10 +23,6 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
 
-    - name: Go to directory
-      run: |
-        cd proto
-
 #    - name: GRPC
 #      run: |
 #        go get -u google.golang.org/grpc
@@ -57,7 +53,7 @@ jobs:
 
     - name: Generate code
       run: |
-        protoc --proto_path=$GOPATH:. --micro_out=. --go_out=. Devbench.proto
+        protoc --proto_path=.:$GOPATH/src --micro_out=. --go_out=. proto/Devbench.proto
 
 
   build:
