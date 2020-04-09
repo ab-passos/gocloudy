@@ -26,9 +26,17 @@ jobs:
       run: |
         cd proto
 
-    - name: Export go modules
+    - name: GRPC
+      run: |
+        go get -u google.golang.org/grpc
+
+    - name: Proto-gen-go
       run: |
         go get -u github.com/golang/protobuf/protoc-gen-go
+
+    - name: Set path
+      run: |
+        export PATH=$PATH:$GOPATH/bin
 
 #    - name: Get dependencies
 #      run: |
