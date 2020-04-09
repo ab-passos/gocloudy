@@ -47,9 +47,9 @@ jobs:
 #      run: |
 #        go get github.com/golang/protobuf@master
 
-#    - name: protoc-gen-micro
-#      run: |
-#        go get github.com/micro/protoc-gen-micro
+    - name: protoc-gen-micro
+      run: |
+        go get github.com/micro/protoc-gen-micro/v2
 
     - name: Generate code
       run: |
