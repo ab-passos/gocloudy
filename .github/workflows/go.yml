@@ -26,9 +26,17 @@ jobs:
       run: |
         cd proto
 
+    - name: Export go modules
+      run: |
+        export GO111MODULE=on
+
     - name: Get dependencies
       run: |
-        go get github.com/golang/protobuf@master; go get github.com/micro/protoc-gen-micro
+        go get github.com/golang/protobuf@master
+
+    - name: protoc-gen-micro
+      run: |
+        go get github.com/micro/protoc-gen-micro
 
     - name: Generate code
       run: |
