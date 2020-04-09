@@ -45,7 +45,7 @@ jobs:
 
     - name: protoc-gen-micro
       run: |
-        GO111MODULE=on  go get github.com/micro/micro/v2@v2.4.0
+        GO111MODULE=on go get -u github.com/micro/protoc-gen-micro/v2
 
     - name: Set path
       run: |
