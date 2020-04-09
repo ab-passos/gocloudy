@@ -71,7 +71,7 @@ jobs:
       uses: actions/checkout@v2
     
     - name: Go to mono
-      uses: cd Mono
+      run: cd Mono
 
     - name: Build
       run: go build -v .
