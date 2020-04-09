@@ -32,7 +32,7 @@ jobs:
 
     - name: Get dependencies
       run: |
-        go get github.com/micro/protoc-gen-micro
+        go get github.com/micro/protoc-gen-micro & ls $PATH
 
     - name: Generate code
       run: |
