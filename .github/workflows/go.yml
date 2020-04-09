@@ -26,6 +26,10 @@ jobs:
       run: |
         cd proto
 
+    - name: Get protoc-gen-go
+      run: |
+        go get -u github.com/golang/protobuf/protoc-gen-go
+
     - name: Get dependencies
       run: |
         go get github.com/micro/protoc-gen-micro
