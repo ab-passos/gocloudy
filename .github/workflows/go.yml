@@ -32,11 +32,15 @@ jobs:
 
     - name: Get dependencies
       run: |
-        go get github.com/golang/protobuf@master
+        go get ./..
 
-    - name: protoc-gen-micro
-      run: |
-        go get github.com/micro/protoc-gen-micro
+#    - name: Get dependencies
+#      run: |
+#        go get github.com/golang/protobuf@master
+
+#    - name: protoc-gen-micro
+#      run: |
+#        go get github.com/micro/protoc-gen-micro
 
     - name: Generate code
       run: |
