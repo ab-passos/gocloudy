@@ -57,7 +57,7 @@ jobs:
 
     - name: Generate code
       run: |
-        protoc --proto_path=$GOPATH:. --micro_out=. --go_out=. proto/Devbench.proto
+        protoc --proto_path=$GOPATH:. --micro_out=. --go_out=. Devbench.proto
 
 
   build:
