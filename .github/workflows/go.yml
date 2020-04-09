@@ -11,6 +11,7 @@ jobs:
   generate:
     name: Generate
     runs-on: ubuntu-latest
+    container: grpc/go
 
     steps:
     - name: Set up Go 1.13
@@ -26,13 +27,9 @@ jobs:
       run: |
         cd proto
 
-    - name: Get protoc-gen-go
-      run: |
-        go get -u github.com/golang/protobuf/protoc-gen-go
-
     - name: Get dependencies
       run: |
-        go get github.com/micro/protoc-gen-micro & ls $PATH
+        go get github.com/micro/protoc-gen-micro
 
     - name: Generate code
       run: |
