@@ -119,6 +119,7 @@ jobs:
     name: Deploy to kubernets
     runs-on: [ubuntu-latest]
     container: google/cloud-sdk
+    needs: [build-image-mono, build-image-machine]
     steps:
          - name: Deploy
            run: |
