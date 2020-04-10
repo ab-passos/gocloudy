@@ -90,8 +90,8 @@ jobs:
         pwd
         ls
         cd Mono
-        docker build -t gcr.io/${PROJECT_ID}/hello-app:v1 .
-        docker push gcr.io/${PROJECT_ID}/hello-app:v1
+        docker build -t gcr.io/${{ secrets.PROJECT_ID }}/hello-app:v1 .
+        docker push gcr.io/${{ secrets.PROJECT_ID }}/hello-app:v1
         
         
         
