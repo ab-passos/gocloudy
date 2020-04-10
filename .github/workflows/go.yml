@@ -71,3 +71,18 @@ jobs:
         go vet $(go list ./... | grep -v /vendor/)
         go test -race $(go list ./... | grep -v /vendor/)
         go build -race -ldflags "-extldflags '-static'" -o mybinary
+        
+  build-image-mono:
+    name: Build-Image-Mono
+    runs-on: [ubuntu-latest]
+    container: docker:latest
+    needs: generate
+    steps:
+    
+    - name: Build image
+      run : |
+        mkdir -p ./credentials
+        echo ${{ secrets.SERVICEACCOUNT }} | base64 -d > ./credentials/serviceaccount.json
+        
+        
+     
