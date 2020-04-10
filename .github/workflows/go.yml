@@ -68,8 +68,8 @@ jobs:
     - name: Go to mono
       run: cd Mono
 
-    - name: Go to mono
-      run: echo "HELLO"
+    - name: Trial
+      run: ls
 
     - name: Build
       run: go build -race -ldflags "-extldflags '-static'" -o mybinary
