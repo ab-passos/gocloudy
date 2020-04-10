@@ -68,4 +68,7 @@ jobs:
     - name: Build
       run: |
         cd Mono
+        go fmt $(go list ./... | grep -v /vendor/)
+        go vet $(go list ./... | grep -v /vendor/)
+        go test -race $(go list ./... | grep -v /vendor/)
         go build -race -ldflags "-extldflags '-static'" -o mybinary
