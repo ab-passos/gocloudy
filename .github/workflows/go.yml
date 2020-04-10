@@ -36,7 +36,7 @@ jobs:
         protoc --proto_path=$GOPATH:. --micro_out=. --go_out=. proto/Devbench.proto
 
 
-  build:
+  build-mono:
     name: Build-Mono
     runs-on: ubuntu-latest
     container: golang:latest
@@ -53,7 +53,7 @@ jobs:
         go test -race $(go list ./... | grep -v /vendor/)
         go build -race -ldflags "-extldflags '-static'" -o mybinary
 
-  build:
+  build-machine:
     name: Build-Machine
     runs-on: ubuntu-latest
     container: golang:latest
