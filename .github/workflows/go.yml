@@ -169,7 +169,7 @@ jobs:
              gcloud auth activate-service-account --key-file ./credentials/serviceaccount.json
              gcloud config set project ${{ secrets.PROJECT_ID }}
              gcloud compute instances list
-             gcloud config set compute/zone us-west1
+             gcloud config set compute/zone us-central1-c	
              gcloud container clusters get-credentials hello-cluster
              kubectl create secret generic my-app-sa-key --from-file ./credentials/serviceaccount.json
              kubectl get secret
