@@ -86,7 +86,7 @@ jobs:
     
     - shell: bash
       run: |
-        cp -f generatedfiles/Devbench.proto Machine/
+        cp -f generatedfiles/* Machine/
     
     - shell: bash
       run: |
