@@ -86,7 +86,11 @@ jobs:
     
     - shell: bash
       run: |
-        cp -f generatedfiles/Devbench.proto Mono/
+        cp -f generatedfiles/Devbench.proto Machine/
+    
+    - shell: bash
+      run: |
+        ls -la Machine/
 
     - name: Build
       run: |
