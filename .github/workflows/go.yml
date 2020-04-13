@@ -39,7 +39,7 @@ jobs:
       uses: actions/upload-artifact@v1
       with:
         name: generatedfiles
-        path: proto/Devbench.*.go
+        path: proto/
 
 
   build-mono:
