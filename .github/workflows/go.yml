@@ -34,6 +34,12 @@ jobs:
     - name: Generate code
       run: |
         protoc --proto_path=$GOPATH:. --micro_out=. --go_out=. proto/Devbench.proto
+    
+    - name: Upload math result for job 1
+      uses: actions/upload-artifact@v1
+      with:
+        name: generatedfiles
+        path: generatedfiles
 
 
   build-mono:
