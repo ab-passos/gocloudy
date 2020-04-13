@@ -99,7 +99,6 @@ jobs:
   build-image-mono:
     name: Build-Image-Mono
     runs-on: [ubuntu-latest]
-    container: docker:latest
     needs: generate
     steps:
     
