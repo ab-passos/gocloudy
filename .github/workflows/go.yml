@@ -115,8 +115,6 @@ jobs:
         mkdir -p ./credentials
         echo ${{ secrets.SERVICEACCOUNT }} | base64 -d > ./credentials/serviceaccount.json
         docker login -u _json_key -p "$(cat ./credentials/serviceaccount.json)" https://gcr.io
-        pwd
-        ls
         cd Mono
         docker build -t gcr.io/${{ secrets.PROJECT_ID }}/hello-app:v1 .
         docker push gcr.io/${{ secrets.PROJECT_ID }}/hello-app:v1
@@ -160,10 +158,10 @@ jobs:
 
          - name: Deploy
            run: |
+             cd Mono
              mkdir -p ./credentials
              echo ${{ secrets.SERVICEACCOUNT }} | base64 -d > ./credentials/serviceaccount.json
              gcloud auth activate-service-account --key-file ./credentials/serviceaccount.json
-             cd Mono
              gcloud config set project ${{ secrets.PROJECT_ID }}
              gcloud compute instances list
              gcloud config set compute/zone us-west1
