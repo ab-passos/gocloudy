@@ -132,6 +132,15 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
     
+    - name: Download math result for job 1
+      uses: actions/download-artifact@v1
+      with:
+        name: generatedfiles
+    
+    - shell: bash
+      run: |
+        cp -f generatedfiles/* Machine/
+    
     - name: Build image
       run : |
         mkdir -p ./credentials
