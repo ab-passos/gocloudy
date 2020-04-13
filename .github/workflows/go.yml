@@ -152,7 +152,7 @@ jobs:
         image_name: machine
   
   deploy:
-    name: Deploy to kubernets
+    name: Deploy to kubernets gcp
     runs-on: [ubuntu-latest]
     container: google/cloud-sdk
     needs: [build-image-mono, build-image-machine]
