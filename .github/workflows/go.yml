@@ -52,14 +52,14 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
     
-    - name: Download math result for job 1
+      - name: Download generated files
       uses: actions/download-artifact@v1
       with:
         name: generatedfiles
     
     - shell: bash
       run: |
-        cp -f generatedfiles/Devbench.proto Mono/
+        cp -f generatedfiles/* Mono/
 
     - name: Build
       run: |
@@ -79,7 +79,7 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
     
-    - name: Download math result for job 1
+    - name: Download generated files
       uses: actions/download-artifact@v1
       with:
         name: generatedfiles
@@ -87,10 +87,6 @@ jobs:
     - shell: bash
       run: |
         cp -f generatedfiles/* Machine/
-    
-    - shell: bash
-      run: |
-        ls -la Machine/
 
     - name: Build
       run: |
@@ -110,14 +106,23 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
     
-    - name: Build image
-      run : |
-        mkdir -p ./credentials
-        echo ${{ secrets.SERVICEACCOUNT }} | base64 -d > ./credentials/serviceaccount.json
-        docker login -u _json_key -p "$(cat ./credentials/serviceaccount.json)" https://gcr.io
+      - name: Download math result for job 1
+      uses: actions/download-artifact@v1
+      with:
+        name: generatedfiles
+    
+    - shell: bash
+      run: |
+        cp -f generatedfiles/* Mono/
         cd Mono
-        docker build -t gcr.io/${{ secrets.PROJECT_ID }}/hello-app:v1 .
-        docker push gcr.io/${{ secrets.PROJECT_ID }}/hello-app:v1
+        
+    - name: Push image to gcr
+      uses: RafikFarhad/push-to-gcr-github-action@v1
+      with:
+        gcloud_service_key: ${{ secrets.SERVICEACCOUNT }} 
+        registry: gcr.io
+        project_name: ${{ secrets.PROJECT_ID }}
+        image_name: mono
         
         
   build-image-machine:

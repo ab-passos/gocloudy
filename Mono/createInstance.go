@@ -21,6 +21,7 @@ func MakeInstances(patchName string) {
 	// Call the greeter
 	_, err := greeter.Create(context.TODO(), &Name{Name: patchName})
 	if err != nil {
+		fmt.Println("Failed")
 		fmt.Println(err)
 	}
 
