@@ -125,7 +125,6 @@ jobs:
   build-image-machine:
     name: Build-Image-Machine
     runs-on: [ubuntu-latest]
-    container: docker:latest
     needs: generate
     steps:
     
@@ -140,17 +139,15 @@ jobs:
     - shell: bash
       run: |
         cp -f generatedfiles/* Machine/
-    
-    - name: Build image
-      run : |
-        mkdir -p ./credentials
-        echo ${{ secrets.SERVICEACCOUNT }} | base64 -d > ./credentials/serviceaccount.json
-        docker login -u _json_key -p "$(cat ./credentials/serviceaccount.json)" https://gcr.io
-        pwd
-        ls
         cd Machine
-        docker build -t gcr.io/${{ secrets.PROJECT_ID }}/machine:v1 .
-        docker push gcr.io/${{ secrets.PROJECT_ID }}/machine:v1
+        
+    - name: Push image to gcr
+      uses: RafikFarhad/push-to-gcr-github-action@v1
+      with:
+        gcloud_service_key: ${{ secrets.SERVICEACCOUNT }} 
+        registry: gcr.io
+        project_name: ${{ secrets.PROJECT_ID }}
+        image_name: machine
   
   deploy:
     name: Deploy to kubernets
