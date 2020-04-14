@@ -115,13 +115,22 @@ jobs:
         cp -f generatedfiles/* Mono/
         cd Mono
         
-    - name: Push image to gcr
-      uses: RafikFarhad/push-to-gcr-github-action@v1
+    - name: Build Docker image
+      run: |
+          cd Mono
+          docker build . --tag gcr.io/${{ secrets.PROJECT_ID }}/mono:latest
+    
+    - name: Authenticate into Google Cloud Platform
+      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
-        gcloud_service_key: ${{ secrets.SERVICEACCOUNT }} 
-        registry: gcr.io
-        project_name: ${{ secrets.PROJECT_ID }}
-        image_name: mono
+          service_account_email: eleanor-sa@eleanor-270008.iam.gserviceaccount.com
+          service_account_key: ${{ secrets.SERVICEACCOUNT }}
+    
+    - name: Configure Docker to use Google Cloud Platform
+      run: "gcloud auth configure-docker --quiet"
+
+    - name: Push image to Google Cloud Container Registry
+      run: docker push gcr.io/${{ secrets.PROJECT_ID }}/mono:latest
         
         
   build-image-machine:
