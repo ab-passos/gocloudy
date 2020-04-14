@@ -145,6 +145,7 @@ jobs:
     
     - name: Build Docker image
       run: |
+          cd Machine
           docker build . --tag gcr.io/${{ secrets.PROJECT_ID }}/machine:latest
     
     - name: Authenticate into Google Cloud Platform
