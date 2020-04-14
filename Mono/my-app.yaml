@@ -20,13 +20,6 @@ spec:
           image: gcr.io/eleanor-270008/mono:latest
           env:
             - name: "BUCKET_NAME"
-              value: mono
-            - name: "GOOGLE_APPLICATION_CREDENTIALS"
-              value: "/var/run/secret/cloud.google.com/serviceaccount.json"
-        - name: machine
-          image: gcr.io/eleanor-270008/machine:latest
-          env:
-            - name: "BUCKET_NAME"
               value: machine
             - name: "GOOGLE_APPLICATION_CREDENTIALS"
               value: "/var/run/secret/cloud.google.com/serviceaccount.json"
@@ -35,6 +28,8 @@ spec:
               mountPath: "/var/run/secret/cloud.google.com"
             - name: "certs"
               mountPath: "/etc/ssl/certs"
+        - name: machine
+          image: gcr.io/eleanor-270008/machine:latest
       volumes:
         - name: "serviceaccount"
           secret:
