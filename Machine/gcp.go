@@ -123,6 +123,8 @@ func makeInstance(patchName string) {
 		log.Fatal(err)
 	}
 
+	fmt.Println("Instance name is: ", patchName)
+
 	var instanceData = InstanceData{patchName, "eleanor-270008", "devbench", "us-west1-c"}
 
 	createInstance(computeService, instanceData)

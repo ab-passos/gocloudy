@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"regexp"
 
 	empty "github.com/golang/protobuf/ptypes/empty"
 	"github.com/micro/go-micro/v2"
@@ -25,11 +24,10 @@ func (dh *DevbenchImpl) Create(ctx context.Context, in *Name, out *empty.Empty) 
 	mysql := &MySqlVM{}
 	vm := NewVirtualMachine(gcp, mysql)
 
-	var rgx = regexp.MustCompile(`\"(.*?)\"`)
-	rs := rgx.FindStringSubmatch(in.String())
+	fmt.Println("Got request to create machine : ", in.Name)
 
 	vmInstance := VMInstance{
-		DevbenchName: rs[1],
+		DevbenchName: in.Name,
 		VirtualMachineDetails: VMDetails{
 			MachineType:  "type",
 			Os:           "os",
@@ -44,11 +42,9 @@ func (dh *DevbenchImpl) Delete(ctx context.Context, in *Name, out *empty.Empty) 
 	gcp := &GCPVirtualMachineProvider{}
 	mysql := &MySqlVM{}
 	vm := NewVirtualMachine(gcp, mysql)
-	fmt.Println("Got message to delete ", in.String())
-	var rgx = regexp.MustCompile(`\"(.*?)\"`)
-	rs := rgx.FindStringSubmatch(in.String())
+	fmt.Println("Got message to delete ", in.Name)
 
-	return vm.DestroyVirtualMachine(rs[1])
+	return vm.DestroyVirtualMachine(in.Name)
 
 }
 
