@@ -27,12 +27,13 @@ type GCPVirtualMachineProvider struct {
 func generateStartupScript(patchName string, instanceName string) string {
 
 	script := "#! /bin/bash\n\n" +
+		"cd ~\n" +
 		"gsutil cp gs://patch-store-bucket/" + patchName + " " + patchName + "\n" +
 		"tar -xzf " + patchName + "\n" +
-		"gsutil cp gs://vm-tooling/rex-watch-dog rex-watch-dog \n" +
 		"python example-testing.py &> outputfile.txt\n" +
 		"gsutil cp outputfile.txt gs://vm-tooling/outputfile-" + instanceName + ".txt\n" +
 		"INSTANCENAME=" + instanceName + "\n" +
+		"gsutil cp gs://vm-tooling/rex-watch-dog rex-watch-dog\n" +
 		"chmod 777 rex-watch-dog\n" +
 		"echo $INSTANCENAME\n" +
 		"./rex-watch-dog -project eleanor-270008 -topic vm-notification -message $INSTANCENAME\n"
