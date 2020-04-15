@@ -1,23 +1,24 @@
-package main 
+package main
 
 import (
 	"context"
 	"fmt"
-	"google.golang.org/api/compute/v1"
 	"log"
 	"time"
+
+	"google.golang.org/api/compute/v1"
 )
 
 const (
-	imageURL = "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/images/debian-7-wheezy-v20140606"
+	imageURL        = "https://www.googleapis.com/compute/v1/projects/debian-cloud/global/images/debian-7-wheezy-v20140606"
 	someDescription = "compute sample instance"
 )
 
 type InstanceData struct {
-	patchName string
-	projectId string
+	patchName    string
+	projectId    string
 	instanceName string
-	zone string
+	zone         string
 }
 
 type GCPVirtualMachineProvider struct {
@@ -26,14 +27,14 @@ type GCPVirtualMachineProvider struct {
 func generateStartupScript(patchName string, instanceName string) string {
 
 	script := "#! /bin/bash\n\n" +
-			"gsutil cp gs://patch-store-bucket/" + patchName + " " + patchName + "\n" +
-			"tar -xzf " + patchName + "\n" +
-			"gsutil cp gs://vm-tooling/rex-watch-dog rex-watch-dog \n" +
-			"python example-testing.py\n" +
-			"INSTANCENAME=" + instanceName + "\n" +
-			"chmod 777 rex-watch-dog\n" +
-			"echo $INSTANCENAME\n" +
-			"./rex-watch-dog -project eleanor-270008 -topic vm-notification -message $INSTANCENAME\n" 
+		"gsutil cp gs://patch-store-bucket/" + patchName + " " + patchName + "\n" +
+		"tar -xzf " + patchName + "\n" +
+		"gsutil cp gs://vm-tooling/rex-watch-dog rex-watch-dog \n" +
+		"python example-testing.py\n" +
+		"INSTANCENAME=" + instanceName + "\n" +
+		"chmod 777 rex-watch-dog\n" +
+		"echo $INSTANCENAME\n" +
+		"./rex-watch-dog -project eleanor-270008 -topic vm-notification -message $INSTANCENAME\n"
 
 	return script
 }
@@ -43,14 +44,14 @@ func generateUniqueInstanceName(instanceName string) string {
 }
 
 func generatedUniqueDiskName() string {
-	return "my-root-pd"+ time.Now().Format("20060102150405")
+	return "my-root-pd" + time.Now().Format("20060102150405")
 }
 
 func createInstance(service *compute.Service, instanceData InstanceData) {
 	prefix := "https://www.googleapis.com/compute/v1/projects/" + instanceData.projectId
 	generateInstanceName := generateUniqueInstanceName(instanceData.instanceName)
 	pubsubwrite := "https://www.googleapis.com/auth/pubsub"
-	
+
 	script := generateStartupScript(instanceData.patchName, generateInstanceName)
 	instance := &compute.Instance{
 		Name:        generateInstanceName,
@@ -62,7 +63,7 @@ func createInstance(service *compute.Service, instanceData InstanceData) {
 				Boot:       true,
 				Type:       "PERSISTENT",
 				InitializeParams: &compute.AttachedDiskInitializeParams{
-					DiskName:    generatedUniqueDiskName(), 
+					DiskName:    generatedUniqueDiskName(),
 					SourceImage: imageURL,
 				},
 			},
@@ -85,7 +86,6 @@ func createInstance(service *compute.Service, instanceData InstanceData) {
 					compute.DevstorageFullControlScope,
 					compute.ComputeScope,
 					pubsubwrite,
-
 				},
 			},
 		},
@@ -128,12 +128,27 @@ func makeInstance(patchName string) {
 	}
 }
 
+func destroyInstance(instanceName string) {
+	ctx := context.Background()
+	computeService, err := compute.NewService(ctx)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	//Instances *InstancesService
+	_, err2 := computeService.Instances.Delete("eleanor-270008", "us-west1-c", instanceName).Do()
+	if err2 != nil {
+		log.Fatal(err)
+	}
+
+}
+
 func (gc *GCPVirtualMachineProvider) CreateVirtualMachine(vmInstance VMInstance) error {
 	makeInstance(vmInstance.DevbenchName)
 	return nil
 }
 
 func (gc *GCPVirtualMachineProvider) DestroyVirtualMachine(vmName string) error {
+	destroyInstance(vmName)
 	return nil
 }
-

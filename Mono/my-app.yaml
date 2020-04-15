@@ -28,6 +28,24 @@ spec:
               mountPath: "/etc/ssl/certs"
         - name: machine
           image: gcr.io/eleanor-270008/machine:latest
+          env:
+            - name: "GOOGLE_APPLICATION_CREDENTIALS"
+              value: "/var/run/secret/cloud.google.com/serviceaccount.json"
+          volumeMounts:
+            - name: "serviceaccount"
+              mountPath: "/var/run/secret/cloud.google.com"
+            - name: "certs"
+              mountPath: "/etc/ssl/certs"
+        - name: terminator
+          image: gcr.io/eleanor-270008/terminator:latest
+          env:
+            - name: "GOOGLE_APPLICATION_CREDENTIALS"
+              value: "/var/run/secret/cloud.google.com/serviceaccount.json"
+          volumeMounts:
+            - name: "serviceaccount"
+              mountPath: "/var/run/secret/cloud.google.com"
+            - name: "certs"
+              mountPath: "/etc/ssl/certs"
       volumes:
         - name: "serviceaccount"
           secret:

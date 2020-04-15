@@ -4,3 +4,4 @@ main
 Machine/main
 Mono/main
 proto/*.go
+Terminator/*.pb.*

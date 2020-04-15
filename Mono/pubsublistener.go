@@ -1,8 +1,6 @@
 package main
 
 import (
-	pubsub "cloud.google.com/go/pubsub"
-	"cloud.google.com/go/storage"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -13,6 +11,9 @@ import (
 	"os"
 	"sync"
 	"time"
+
+	pubsub "cloud.google.com/go/pubsub"
+	"cloud.google.com/go/storage"
 )
 
 type Parser interface {
@@ -47,7 +48,7 @@ type PubSubGCP struct {
 
 func CreatePubSubGCP() *PubSubGCP {
 	return &PubSubGCP{
-		parser : CreateJsonParser(),
+		parser: CreateJsonParser(),
 	}
 }
 
@@ -58,15 +59,15 @@ func subscribe() (*pubsub.Subscription, context.Context) {
 	if err != nil {
 		panic(err)
 	}
-	return client.Subscription(GetSubscriptionForPatchAdded()) , ctx
+	return client.Subscription(GetSubscriptionForPatchAdded()), ctx
 }
 
 func (pubSubGCP *PubSubGCP) ListenToBucketAtGCP() error {
-	
+
 	sub, ctx := subscribe()
 
-    log.Printf("Subscribed")
-    err2 := sub.Receive(ctx,
+	log.Printf("Subscribed")
+	err2 := sub.Receive(ctx,
 		func(ctx context.Context, m *pubsub.Message) {
 			log.Printf("Got message: %s", m.Data)
 			var raw map[string]interface{}
@@ -78,7 +79,7 @@ func (pubSubGCP *PubSubGCP) ListenToBucketAtGCP() error {
 			obj := pubSubGCP.parser.GetPatchName(raw)
 
 			MakeInstances(obj)
-            m.Ack()
+			m.Ack()
 
 		})
 	return err2
@@ -86,10 +87,10 @@ func (pubSubGCP *PubSubGCP) ListenToBucketAtGCP() error {
 
 type BucketListener struct {
 	pubSub PubSub
-	wg *sync.WaitGroup
+	wg     *sync.WaitGroup
 }
 
-func (bucketListener* BucketListener) ListenToBucket() {
+func (bucketListener *BucketListener) ListenToBucket() {
 	err := bucketListener.pubSub.ListenToBucketAtGCP()
 	if err != nil {
 		bucketListener.wg.Done()
@@ -101,25 +102,11 @@ func (bucketListener* BucketListener) ListenToBucket() {
 func CreateBucketListener(waitGroup *sync.WaitGroup) *BucketListener {
 	return &BucketListener{
 		pubSub: CreatePubSubGCP(),
-		wg: waitGroup,
+		wg:     waitGroup,
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
 //TODO
-
-
-
-
 
 func DownloadFromBucket(bucket string, object string) error {
 	bucket = bucket[1 : len(bucket)-1]

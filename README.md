@@ -14,6 +14,8 @@ gcloud auth configure-docker
 
 docker push gcr.io/${PROJECT_ID}/hello-app:v1
 
+docker run --volume=/Users/andrepassos/projects/gocloudy/credentials/service-account.json:/secrets/service-account.json --env=GOOGLE_APPLICATION_CREDENTIALS=/secrets/service-account.json mono:latest
+
 docker run -ti -v=/Users/andrepassos/.config/gcloud/:/root/.config/gcloud -p 8080:8080 go-docker
 
 create secret from file:
