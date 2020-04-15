@@ -28,14 +28,23 @@ func generateStartupScript(patchName string, instanceName string) string {
 
 	script := "#! /bin/bash\n\n" +
 		"cd ~\n" +
+		"echo 1\n" +
 		"gsutil cp gs://patch-store-bucket/" + patchName + " " + patchName + "\n" +
+		"echo 2\n" +
 		"tar -xzf " + patchName + "\n" +
+		"echo 3\n" +
 		"python example-testing.py &> outputfile.txt\n" +
+		"echo 4\n" +
 		"gsutil cp outputfile.txt gs://vm-tooling/outputfile-" + instanceName + ".txt\n" +
+		"echo 5\n" +
 		"INSTANCENAME=" + instanceName + "\n" +
+		"echo 6\n" +
 		"gsutil cp gs://vm-tooling/rex-watch-dog rex-watch-dog\n" +
+		"echo 7\n" +
 		"chmod 777 rex-watch-dog\n" +
+		"echo 8\n" +
 		"echo $INSTANCENAME\n" +
+		"echo 9\n" +
 		"./rex-watch-dog -project eleanor-270008 -topic vm-notification -message $INSTANCENAME\n"
 
 	return script
