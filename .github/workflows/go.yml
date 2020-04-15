@@ -231,7 +231,7 @@ jobs:
       run: "gcloud auth configure-docker --quiet"
     
     - name: Push image to Google Cloud Container Registry
-      run: docker push gcr.io/${{ secrets.PROJECT_ID }}/machine:latest
+      run: docker push gcr.io/${{ secrets.PROJECT_ID }}/terminator:latest
   
   deploy:
     name: Deploy to kubernets gcp
