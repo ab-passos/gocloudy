@@ -31,7 +31,7 @@ func generateStartupScript(patchName string, instanceName string) string {
 		"tar -xzf " + patchName + "\n" +
 		"gsutil cp gs://vm-tooling/rex-watch-dog rex-watch-dog \n" +
 		"python example-testing.py &> outputfile.txt\n" +
-		"gsutil cp outputfile.txt gs://patch-store-bucket/outputfile-" + instanceName + ".txt\n" +
+		"gsutil cp outputfile.txt gs://vm-tooling/outputfile-" + instanceName + ".txt\n" +
 		"INSTANCENAME=" + instanceName + "\n" +
 		"chmod 777 rex-watch-dog\n" +
 		"echo $INSTANCENAME\n" +
