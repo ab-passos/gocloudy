@@ -25,8 +25,11 @@ func (dh *DevbenchImpl) Create(ctx context.Context, in *Name, out *empty.Empty) 
 	mysql := &MySqlVM{}
 	vm := NewVirtualMachine(gcp, mysql)
 
+	var rgx = regexp.MustCompile(`\"(.*?)\"`)
+	rs := rgx.FindStringSubmatch(in.String())
+
 	vmInstance := VMInstance{
-		DevbenchName: in.String(),
+		DevbenchName: rs,
 		VirtualMachineDetails: VMDetails{
 			MachineType:  "type",
 			Os:           "os",
