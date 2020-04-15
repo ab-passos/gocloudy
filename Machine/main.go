@@ -29,7 +29,7 @@ func (dh *DevbenchImpl) Create(ctx context.Context, in *Name, out *empty.Empty) 
 	rs := rgx.FindStringSubmatch(in.String())
 
 	vmInstance := VMInstance{
-		DevbenchName: rs,
+		DevbenchName: rs[1],
 		VirtualMachineDetails: VMDetails{
 			MachineType:  "type",
 			Os:           "os",
