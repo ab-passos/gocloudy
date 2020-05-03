@@ -41,7 +41,10 @@ jobs:
       with:
         name: generatedfiles
         path: proto/
-
+        
+        
+    - name: golang-security-action
+      uses: Ynniss/golang-security-action@v0.1.3
 
   build-mono:
     name: Build-Mono
